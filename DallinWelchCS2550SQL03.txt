@@ -1,0 +1,76 @@
+--1
+SELECT S.FIRST_NAME,S.LAST_NAME,S.PHONE,z.city,z.state
+FROM STUDENT S JOIN ZIPCODE Z ON(S.ZIP = Z.ZIP)
+WHERE Z.CITY = 'Newark' 
+ORDER BY  S.LAST_NAME,S.FIRST_NAME;
+--2
+SELECT C.COURSE_NO, c.prerequisite, P.DESCRIPTION 
+FROM 
+COURSE C JOIN  COURSE P ON (c.prerequisite = P.COURSE_NO)
+WHERE C.COURSE_NO BETWEEN 300 AND 399
+ORDER BY C.COURSE_NO;
+--3
+SELECT C.COURSE_NO, C.DESCRIPTION, I.first_name, I.last_name
+FROM COURSE C JOIN SECTION S ON (C.COURSE_NO = S.COURSE_NO)
+INNER JOIN INSTRUCTOR I ON (S.INSTRUCTOR_ID = I.INSTRUCTOR_ID)
+WHERE I.FIRST_NAME = 'Charles' AND I.LAST_NAME = 'Lowry'
+AND c.course_no between 100 and 199
+ORDER BY c.course_no;
+--4
+SELECT GTW.GRADE_TYPE_CODE, C.DESCRIPTION, GTW.NUMBER_PER_SECTION
+FROM
+GRADE_TYPE_WEIGHT GTW JOIN SECTION S ON (gtw.section_id= s.section_id)
+JOIN COURSE C ON (C.course_no = s.course_no)
+
+WHERE C.COURSE_NO = '144'
+ORDER BY C.DESCRIPTION;
+
+--5
+SELECT DISTINCT S.FIRST_NAME, S.LAST_NAME, TO_CHAR(E.ENROLL_DATE, 'DayMonthYear') 
+FROM    STUDENT S JOIN ENROLLMENT E ON (s.student_id = e.student_id)
+WHERE TO_CHAR(E.ENROLL_DATE , 'MMYY') = '0107'
+ORDER BY  E.ENROLL_DATE , S.LAST_NAME, S.FIRST_NAME;
+
+--6
+SELECT
+    last_name || ', '
+                 || first_name fullname,
+    to_char(enroll_date, 'MM/DD/YYYY') enrolldate,
+    course_no,
+    grade_type_code,
+    g.numeric_grade
+FROM
+    student      s
+    JOIN enrollment   e ON ( s.student_id = e.student_id )
+    INNER JOIN grade        g ON ( e.student_id = g.student_id )
+                    AND ( e.section_id = g.section_id )
+    INNER JOIN section      st ON ( e.section_id = st.section_id )
+WHERE
+    last_name LIKE 'H%'
+ORDER BY
+    fullname;
+--7
+SELECT S.SECTION_ID, S.SECTION_NO, C.DESCRIPTION
+FROM COURSE C JOIN SECTION S ON (S.COURSE_NO = c.course_no)
+WHERE c.prerequisite IS NULL
+ORDER BY s.section_id;
+--8
+SELECT distinct S.LAST_NAME, S.FIRST_NAME,s.phone
+FROM STUDENT S JOIN ENROLLMENT E ON (S.STUDENT_ID= E.STUDENT_ID)
+join zipcode z on(z.zip = s.zip)
+WHERE TO_CHAR(e.enroll_date, 'hh24:mi mm yy') < '10:20 02 07'
+and  z.city = 'Flushing'
+ORDER BY S.LAST_NAME, S.FIRST_NAME;
+--9 need help
+
+
+--10 need help
+SELECT G.SECTION_ID, g.grade_type_code, G.NUMERIC_GRADE
+FROM
+GRADE G JOIN GRADE_TYPE_WEIGHT GTW ON (g.section_id = gtw.section_id)
+AND (G.GRADE_TYPE_CODE = GTW.GRADE_TYPE_CODE)
+WHERE  g.grade_type_code = 'QZ' AND 
+gtw.drop_lowest is null
+and
+g.numeric_grade < '76'
+ORDER BY G.SECTION_ID;

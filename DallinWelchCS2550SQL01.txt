@@ -1,0 +1,65 @@
+--1
+SELECT salutation, first_name, last_name
+FROM instructor
+ORDER BY last_name,first_name;
+--2 still need to d
+SELECT location 
+FROM section
+ORDER BY location
+
+--3
+SELECT first_name, last_name 
+FROM instructor
+WHERE last_name LIKE '%s'
+ORDER BY first_name, last_name;
+
+--4
+SELECT phone, CONCAT(first_name, last_name) AS whole_name, employer
+FROM student
+WHERE last_name = 'Torres'
+ORDER BY employer;
+--5
+SELECT course_no, description
+FROM course
+WHERE prerequisite = 350
+ORDER BY course_no;
+--6
+SELECT COURSE_NO, DESCRIPTION, COST
+FROM COURSE
+WHERE COURSE_NO >= 200
+AND COURSE_NO < 300
+AND COST < 1100
+ORDER BY COURSE_NO;
+
+--7 still need to do
+SELECT COURSE_NO, SECTION_ID,LOCATION
+FROM SECTION
+WHERE COURSE_NO BETWEEN 100 AND 200
+AND LOCATION = 'L214'
+OR LOCATION = 'L509'
+ORDER BY LOCATION, COURSE_NO;
+
+--8
+SELECT COURSE_NO, SECTION_ID, CAPACITY
+FROM SECTION
+WHERE CAPACITY IN(12,15)
+ORDER BY COURSE_NO, SECTION_ID;
+--9
+SELECT
+    STUDENT_ID,
+   NUMERIC_GRADE
+FROM
+    GRADE
+WHERE
+   SECTION_ID LIKE  '141'
+   AND GRADE_TYPE_CODE LIKE 'MT'
+ORDER BY
+    grade.student_id,
+    grade.numeric_grade
+
+--10
+SELECT COURSE_NO,description
+FROM COURSE
+WHERE COURSE_NO BETWEEN 300 AND 399
+AND prerequisite IS NOT NULL
+ORDER BY description;
